@@ -1,0 +1,20 @@
+# compose.yaml
+services:
+  app:
+    image: alpine
+    command: sh -c "while true; do echo hello from app; sleep 2; done"
+    depends_on:
+      - collector
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "udp://127.0.0.1:5514"
+        tag: "demo-app"
+
+  collector:
+    image: python:3.12-alpine
+    ports:
+      - "5514:5514/udp"
+    volumes:
+      - ./collector.py:/collector.py
+    command: python3 /collector.py
