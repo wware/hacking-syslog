@@ -1,0 +1,33 @@
+{
+  "title": "Syslog Collector",
+  "uid": "syslog-collector",
+  "schemaVersion": 38,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Messages/sec",
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "rate(syslog_messages_total[1m])",
+          "legendFormat": "msg/s"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Bytes/sec",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "rate(syslog_bytes_total[1m])",
+          "legendFormat": "bytes/s"
+        }
+      ]
+    }
+  ],
+  "time": { "from": "now-5m", "to": "now" },
+  "refresh": "5s"
+}
