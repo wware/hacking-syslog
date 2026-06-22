@@ -19,6 +19,17 @@ docker compose up
 docker compose logs -f collector
 ```
 
+## Observability
+
+The collector exposes Prometheus metrics on port 8000 (`syslog_messages_total`, `syslog_bytes_total`). Prometheus scrapes it every 5 seconds; Grafana is available for dashboards.
+
+| URL | Service |
+|-----|---------|
+| `http://localhost:9090` | Prometheus UI |
+| `http://localhost:3000` | Grafana (login: `admin` / `admin`) |
+
+In Grafana, add a Prometheus data source at `http://prometheus:9090`, then graph `rate(syslog_messages_total[1m])` or `rate(syslog_bytes_total[1m])`.
+
 ## Key concepts
 
 | Thing | Role |
@@ -27,3 +38,4 @@ docker compose logs -f collector
 | `udp://127.0.0.1:5514` | The syslog address the `app` container sends to |
 | `collector.py` | A plain UDP socket server — no syslog library needed; the payload is just a syslog-formatted string |
 | `depends_on` | Ensures the collector is up before the app starts sending logs |
+| `prometheus_client` | Python library that serves metrics over HTTP for Prometheus to scrape |
