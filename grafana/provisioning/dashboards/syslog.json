@@ -9,7 +9,7 @@
       "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
       "targets": [
         {
-          "datasource": "Prometheus",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
           "expr": "rate(syslog_messages_total[1m])",
           "legendFormat": "msg/s"
         }
@@ -21,9 +21,27 @@
       "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
       "targets": [
         {
-          "datasource": "Prometheus",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
           "expr": "rate(syslog_bytes_total[1m])",
           "legendFormat": "bytes/s"
+        }
+      ]
+    },
+    {
+      "type": "logs",
+      "title": "Syslog Messages",
+      "gridPos": { "x": 0, "y": 8, "w": 24, "h": 10 },
+      "options": {
+        "showTime": true,
+        "showLabels": false,
+        "wrapLogMessage": true,
+        "enableLogDetails": true,
+        "sortOrder": "Descending"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "loki", "uid": "loki" },
+          "expr": "{job=\"syslog\"}"
         }
       ]
     }

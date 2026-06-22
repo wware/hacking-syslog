@@ -20,6 +20,14 @@ services:
       - ./collector.py:/collector.py
     command: sh -c "pip install prometheus_client -q && python3 /collector.py"
 
+  loki:
+    image: grafana/loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-config.yml:/etc/loki/config.yml
+    command: -config.file=/etc/loki/config.yml
+
   prometheus:
     image: prom/prometheus
     volumes:
@@ -39,3 +47,4 @@ services:
       - ./grafana/provisioning:/etc/grafana/provisioning
     depends_on:
       - prometheus
+      - loki
